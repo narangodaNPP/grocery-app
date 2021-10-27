@@ -1,15 +1,15 @@
 import React, {useContext} from 'react';
-import Cart from './Cart';
-import SignIn from './SignIn';
-import SignUp from './SignUp';
-import Product from './Product';
-import NotFound from './utils/NotFound'
 import {Switch, Route} from 'react-router-dom';
 import {GlobalState} from '../../GlobalState';
-import OrderHistory from './OrderHistory';
-import OrderDetails from './OrderDetails';
-import Categories from './Categories';
-import CreateProduct from './CreateProduct';
+import Cart from './payments/Cart';
+import SignIn from './authentication/SignIn';
+import SignUp from './authentication/SignUp';
+import Product from './products/Product';
+import NotFound from './utils/NotFound'
+import OrderHistory from './orders/OrderHistory';
+import OrderDetails from './orders/OrderDetails';
+import Categories from './categories/Categories';
+import CreateProduct from './categories/CreateProduct';
 
 function Pages() {
 

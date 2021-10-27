@@ -1,14 +1,9 @@
 import React, {useState, useContext, useEffect} from 'react';
-import {GlobalState} from '../../GlobalState';
-import Button from '@mui/material/Button';
-import Grid from '@mui/material/Grid';
-import Stack from '@mui/material/Stack';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
+import {GlobalState} from '../../../GlobalState';
+import {Button, Grid, Stack, Box, Typography, Container} from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import ProductItem from './utils/ProductItem';
-import Loading from './utils/Load}ing';
+import ProductItem from './ProductItem';
+import Loading from '../utils/Loading';
 import axios from 'axios';
 
 
@@ -29,11 +24,11 @@ export default function Product() {
       setIsCheck(!isCheck);
     }
 
-    const deleteAll = () => {
-      products.forEach(product => {
-        if(product.checked) deleteProduct(product._id, product.images.public_id);
-      })
-    }
+    // const deleteAll = () => {
+    //   products.forEach(product => {
+    //     if(product.checked) deleteProduct(product._id, product.images.public_id);
+    //   })
+    // }
 
     return (
         <ThemeProvider theme={theme}>
@@ -56,7 +51,7 @@ export default function Product() {
                 <div>
                   <span>Select All</span>
                   <input type="checkbox" checked={isCheck} onChange={checkAll}/>
-                  <Button onClick={deleteAll}>Delete All</Button>
+                  {/*<Button onClick={deleteAll}>Delete All</Button>*/}
                 </div>
               }
 

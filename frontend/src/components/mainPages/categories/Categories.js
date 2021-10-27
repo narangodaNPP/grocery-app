@@ -1,12 +1,11 @@
 import React, {useState, useContext} from 'react';
-import {GlobalState} from '../../GlobalState';
+import {GlobalState} from '../../../GlobalState';
 import {createTheme, ThemeProvider} from '@mui/material/styles';
 import {Link} from 'react-router-dom'
 import {Box, Typography, Grid, TextField, Button, Container, Stack, styled, Paper, alertClasses} from '@mui/material';
 import axios from 'axios';
 
-
-function Categories() {
+export default function Categories() {
     const state = useContext(GlobalState);
     const [categories] = state.categoriesAPI.categories
     const [category, setCategory] = useState('')
@@ -86,9 +85,7 @@ function Categories() {
                                 
                                     <Button onClick = {() => editCategory(category._id, category.name)}>Edit</Button> 
                                     <Button onClick = {() => deleteCategory(category._id)}>Delete</Button>  
-                                    
-    
-                                   
+   
                                 </Grid>
                             ))
                         }
@@ -103,4 +100,4 @@ function Categories() {
     )
 }
 
-export default Categories
+
