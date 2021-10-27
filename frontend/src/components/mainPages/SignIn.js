@@ -1,0 +1,80 @@
+import React, {useState} from 'react';
+import Avatar from '@mui/material/Avatar';
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import {Link} from 'react-router-dom';
+import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import Typography from '@mui/material/Typography';
+import Container from '@mui/material/Container';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import axios from 'axios';
+
+const theme = createTheme();
+
+function SignIn() {
+    const [user, setUser] = useState({
+        email: '', password: ''
+    })
+
+    const onChangeInput = e => {
+        const {name, value} = e.target; 
+        setUser({...user, [name]: value});
+    }
+
+    const signinSubmit = async e => {
+        e.preventDefault();
+        try {
+            await axios.post('/user/login', {...user})
+            localStorage.setItem('fisrtLogin', true);
+            window.location.href = '/';
+        } catch (err) {
+            alert(err.response.data.msg)
+        }
+    }
+
+    return (
+        <ThemeProvider theme={theme}>
+            <Container component="main" maxWidth="xs" sx ={{marginTop: 8, pb: 4, border: '1px solid blue'}}>
+                <Box sx={{ marginTop: 8, display: 'flex', flexDirection: 'column', alignItems: 'center',}}>
+                    
+                    <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+                        <LockOutlinedIcon />
+                    </Avatar>
+                    <Typography component="h1" variant="h5">
+                        Sign in
+                    </Typography>
+
+                    <Box component="form" onSubmit={signinSubmit} sx={{ mt: 1 }}>
+
+                        <Grid container spacing={2}>
+                            <Grid item xs={12}>
+                                <TextField id="email" name="email" type='email' value = {user.email} placeholder="Email Address" onChange = {onChangeInput} fullWidth required />
+                            </Grid>
+                            <Grid item xs={12}>
+                                <TextField id="password" name="password" type="password" value = {user.password}  placeholder = "Password" onChange = {onChangeInput} fullWidth required/>
+                            </Grid>
+                        </Grid>  
+                         
+                        <Button type="submit" color="success" variant="contained" sx={{ mt: 3, mb: 2 }} fullWidth>
+                            Sign In
+                        </Button>
+
+                        <Grid container>
+                            <Grid item>
+                                <Link to="/SignUp" style={{textDecoration: 'none'}} variant="body2">
+                                    Don't have an account? Sign Up
+                                </Link>
+                            </Grid>
+                        </Grid>
+
+                    </Box>
+
+                </Box>
+            </Container>
+        </ThemeProvider>
+    );
+}
+
+export default SignIn;
