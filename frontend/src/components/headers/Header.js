@@ -14,24 +14,22 @@ export default function Header() {
 
     const adminRouter = () => {
         return(
-            <Box>
+            <Box sx = {{display: {md: 'flex', xs: 'none'}}}>
                 <Button><Link style={{textDecoration: 'none'}} to="/CreateProduct">Create Product</Link></Button>
                 <Button><Link style={{textDecoration: 'none'}} to="/Categories">Categories</Link></Button>
             </Box>
         )
     }
 
-    const userLogout = async ()=> {
+    const userLogout = async () => {
         await axios.get('/user/logout')
         localStorage.removeItem('firstLogin');
-        // setIsLogged(false);
-        // setIsAdmin(false);
         window.location.href ='/';
     }
 
-    const loggedRouter =() => {
+    const loggedRouter = () => {
         return(
-            <Box>
+            <Box sx = {{display: {md: 'flex', xs: 'none'}}}>
                 <Button><Link style={{textDecoration: 'none'}} to="/History">History</Link></Button>
                 <Button><Link style={{textDecoration: 'none'}} to="/" onClick ={userLogout}>Logout</Link></Button>
             </Box>
@@ -39,21 +37,22 @@ export default function Header() {
     }
 
     return (
-        <Box sx={{ flexGrow: 1 }}>
-            <AppBar position="static" color ='transparent'>
+        <Box sx={{ display: 'flex',}}>
+            <AppBar position="relative" color="transparent">
                 <Toolbar>
-                    <IconButton size="large" edge="start" color="inherit" sx={{ mr: 2, display: {md: 'none', xs: 'flex'} }}>
+                    <Box size="large" edge="start" color="inherit" sx={{ mr: 2, display: {md: 'none', xs: 'flex'} }}>
                         <MenuIcon/>
-                    </IconButton>
+                    </Box>
+                    
                     <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                         <Link style={{textDecoration: 'none'}} to ='/'>{isAdmin ? 'Admin-View' : 'Online-Grocery'}</Link>
                     </Typography>
-                    <Button color="inherit"><Link style={{textDecoration: 'none'}} to='/'>{isAdmin ? 'Products' : 'Shop'}</Link></Button>
+                    <Button sx = {{display: {md: 'flex', xs: 'none'}}} color="inherit"><Link style={{textDecoration: 'none'}} to='/'>{isAdmin ? 'Products' : 'Shop'}</Link></Button>
 
                     {isAdmin && adminRouter()} 
                     
                     {
-                        isLogged ? loggedRouter() : <Box><Button color="inherit"><Link style={{textDecoration: 'none'}} to='/SignIn'>Sign-In</Link></Button><Button color="inherit"><Link style={{textDecoration: 'none'}} to='/SignUp'>Sign-Up</Link></Button></Box>
+                        isLogged ? loggedRouter() : <Box sx = {{display: {md: 'flex', xs: 'none'}}}><Button color="inherit"><Link style={{textDecoration: 'none'}} to='/SignIn'>Sign-In</Link></Button><Button color="inherit"><Link style={{textDecoration: 'none'}} to='/SignUp'>Sign-Up</Link></Button></Box>
                     }
                     
                     {

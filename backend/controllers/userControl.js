@@ -6,7 +6,7 @@ const jwt = require('jsonwebtoken')
 const userControl = {
     register: async(req, res) =>{
         try {
-            const {name, email, password} = req.body;
+            const {first_name, last_name, email, password} = req.body;
 
             const user = await Users.findOne({email});
             if(user) 
@@ -18,7 +18,7 @@ const userControl = {
             const passwordEncrypt = await bcrypt.hash(password, 10); // encrypt the password
             
             const newUser = new Users({
-                name, email, password: passwordEncrypt
+                first_name, last_name, email, password: passwordEncrypt
             })
 
             // res.json(newUser);

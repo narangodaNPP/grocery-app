@@ -1,8 +1,8 @@
 import React, {useState, useContext} from 'react';
 import {GlobalState} from '../../../GlobalState';
 import {createTheme, ThemeProvider} from '@mui/material/styles';
-import {Link} from 'react-router-dom'
-import {Box, Typography, Grid, TextField, Button, Container, Stack, styled, Paper, alertClasses} from '@mui/material';
+import {Link} from 'react-router-dom';
+import {Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography, TextField, Button, Container, Stack, Divider} from '@mui/material';
 import axios from 'axios';
 
 export default function Categories() {
@@ -10,10 +10,11 @@ export default function Categories() {
     const [categories] = state.categoriesAPI.categories
     const [category, setCategory] = useState('')
     const [token] = state.token;
-    const theme = createTheme();
     const [callback, setCallback] = state.categoriesAPI.callback;
     const [id, setId] = useState('');
     const [onEdit, setOnEdit] = useState(false);
+
+    const theme = createTheme();
 
     const createCategory = async (e) => {
         e.preventDefault();
@@ -43,7 +44,7 @@ export default function Categories() {
     const deleteCategory = async (id) => {
         try {
             const res = await axios.delete(`/api/category/${id}`, { headers: {Authorization: token}});
-            alert(res.data.message);
+            alert(res.data.msg);
             setCallback(!callback);
         } catch (err) {
             alert(err.response.data.msg)
@@ -52,52 +53,134 @@ export default function Categories() {
 
     return (
         <ThemeProvider theme={theme}>
-            <Container component="main"maxWidth="xs" sx ={{marginTop: 8, flexDirection: 'row', pb: 4, border: '1px solid blue'}}>
-
-                <Box sx={{ marginTop: 8, display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
-                    
-                    <Typography component="h1" variant="h5">
+            <Container sx ={{marginTop: 8, pb: 4, width: '80%', border: '1px solid blue'}}>
+                {/* Heading */}
+                <Box component = 'div' sx ={{display: 'flex', justifyContent: 'center', flexDirection: 'row', p: 1, m: 1}}>
+                    <Typography component="h1" variant="h5" sx ={{justifyContent: 'center'}}>
                         Categories
                     </Typography>
+                </Box>
 
-                    <Box component="form" sx={{ mt: 1 }} onSubmit = {createCategory}>
-
-                        <Grid container spacing={2}>
-                            <Grid item xs={12}>
-                               <TextField id="category" name="category" type='text' onChange = {e => setCategory(e.target.value)}/>
-                            </Grid>
-                        </Grid>  
-                         
-                        <Button type="submit" color="success" variant="contained" sx={{ mt: 3, mb: 2 }} fullWidth>
-                            {onEdit ? "Update" : "Create"}
-                        </Button>
+                {/* Category editor section */}
+                <Box component = 'div' sx ={{display: 'flex', flexDirection: 'row', p: 1, m: 1, justifyContent: 'space-around',}}>
+                    <Box sx ={{display: 'flex', flexDirection: 'row', p: 1, m: 1, border: '1px solid blue', width: '75%', justifyContent: 'center',}}>
+                        <Box component="form" sx={{ mt: 1, display: 'flex', flexDirection: 'column' }} onSubmit = {createCategory}>
+                            
+                            <TextField id="category" name="category" type='text' onChange = {e => setCategory(e.target.value)}/>
+                             
+                            <Button type="submit" color="success" variant="contained" sx={{ mt: 3, mb: 2 }}>{onEdit ? "Update" : "Create"}</Button>
+                        </Box>
                     </Box>
-                </Box>
 
-                <Box sx={{ marginTop: 8, display: 'flex', alignItems: 'center'}}>
-                
-                    <Grid container sx={{ mt: 1 }}>
-                        {
-                            categories.map(category => (
-                                <Grid item xs={12} key = {category._id} sx={{display: 'flex', align: 'flex-start'}}>
-                                    
-                                    <p>{category.name}</p>
+                    {/* Category list vies */}
+                    <TableContainer component={Paper}>
+                        <Table sx={{ minWidth: 300 }} aria-label="simple table">
+                        
+                            <TableBody>
+                            {categories.map((category) => (
+                                <TableRow key={category._id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                                <TableCell component="th" scope="row">
+                                    {category.name}
+                                </TableCell>
+                                <TableCell align="right">
+                                    <Button variant="outlined" color = 'success' size="small" onClick = {() => editCategory(category._id, category.name)}>
+                                        Edit
+                                    </Button>
+                                </TableCell>
+                                <TableCell align="right">
+                                    <Button variant="outlined" color = 'success' size="small" onClick = {() => deleteCategory(category._id)}>
+                                        Delete
+                                    </Button> 
+                                </TableCell>
                                 
-                                    <Button onClick = {() => editCategory(category._id, category.name)}>Edit</Button> 
-                                    <Button onClick = {() => deleteCategory(category._id)}>Delete</Button>  
-   
-                                </Grid>
-                            ))
-                        }
-                    </Grid>
-
+                                </TableRow>
+                            ))}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
                 </Box>
-
+                
             </Container>
         </ThemeProvider>
-
-        
     )
 }
 
 
+
+
+// function createData(name, calories, fat, carbs, protein) {
+//   return { name, calories, fat, carbs, protein };
+// }
+
+// const rows = [
+//   createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
+//   createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
+//   createData('Eclair', 262, 16.0, 24, 6.0),
+//   createData('Cupcake', 305, 3.7, 67, 4.3),
+//   createData('Gingerbread', 356, 16.0, 49, 3.9),
+// ];
+
+// export default function BasicTable() {
+//   return (
+//     <TableContainer component={Paper}>
+//       <Table sx={{ minWidth: 650 }} aria-label="simple table">
+//         <TableHead>
+//           <TableRow>
+//             <TableCell>Category</TableCell>
+//             <TableCell align="right"></TableCell>
+//             <TableCell align="right"></TableCell>
+//           </TableRow>
+//         </TableHead>
+//         <TableBody>
+//           {categories.map((category) => (
+//             <TableRow key={category._id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+//               <TableCell component="th" scope="row">
+//                 {category.name}
+//               </TableCell>
+//               <TableCell align="right">
+//                 <Button variant="outlined" color = 'success' size="small" onClick = {() => editCategory(category._id, category.name)}>
+//                     Edit
+//                 </Button>
+//               </TableCell>
+//               <TableCell align="right">
+//                 <Button variant="outlined" color = 'success' size="small" onClick = {() => deleteCategory(category._id)}>
+//                     Delete
+//                 </Button> 
+//               </TableCell>
+              
+//             </TableRow>
+//           ))}
+//         </TableBody>
+//       </Table>
+//     </TableContainer>
+//   );
+// }
+
+
+// categories.map(category => (
+//     <>
+//         <Stack direction="row" spacing={2} mb = '5px' sx ={{justifyContent: 'space-between',}}  key = {category._id}>
+//             <p>{category.name}</p>
+//             <Button variant="outlined" color = 'success' size="small" onClick = {() => editCategory(category._id, category.name)}>Edit</Button> 
+//             <Button variant="outlined" color = 'success' size="small" onClick = {() => deleteCategory(category._id)}>Delete</Button>  
+//         </Stack>
+//         <Divider sx = {{marginTop: 3, marginBottom: 3}}/>
+//     </>
+// ))
+
+// <Box sx ={{display: 'flex', flexDirection: 'row', p: 1, m: 1}}>
+//                         <Box sx ={{display: 'flex', flexDirection: 'column', }}>
+//                             {
+//                                 categories.map(category => (
+//                                     <>
+//                                         <Stack direction="row" spacing={2} mb = '5px' sx ={{justifyContent: 'space-between',}}  key = {category._id}>
+//                                             <p>{category.name}</p>
+//                                             <Button variant="outlined" color = 'success' size="small" onClick = {() => editCategory(category._id, category.name)}>Edit</Button> 
+//                                             <Button variant="outlined" color = 'success' size="small" onClick = {() => deleteCategory(category._id)}>Delete</Button>  
+//                                         </Stack>
+//                                         <Divider sx = {{marginTop: 3, marginBottom: 3}}/>
+//                                     </>
+//                                 ))
+//                             }
+//                         </Box>
+//                     </Box>

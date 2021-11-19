@@ -4,14 +4,13 @@ const auth = require('../middleware/auth')
 const authAdmin = require('../middleware/authAdmin')
 const fs = require('fs') //nodejs file system
 
-//configure cloudinary
 cloudinary.config({
     cloud_name: process.env.CLOUD_NAME,
     api_key: process.env.CLOUD_API_KEY,
     api_secret: process.env.CLOUD_API_SECRET,
 })
 
-//upload images
+
 router.post('/upload', auth, authAdmin, (req, res) =>{
     try {
         console.log(req.files)
@@ -26,7 +25,7 @@ router.post('/upload', auth, authAdmin, (req, res) =>{
         
         if(file.mimetype !== 'image/jpeg' && file.mimetype !== 'image/png'){
             removeTMP(file.tempFilePath);
-            return res.status(400).json({msg: "Only .jpg and .png can be uploaded"})
+            return res.status(400).json({msg: "Only .jpeg and .png can be uploaded"})
         }
 
         cloudinary.v2.uploader.upload(file.tempFilePath, {folder: "test"}, async(err, result) =>{
@@ -41,7 +40,6 @@ router.post('/upload', auth, authAdmin, (req, res) =>{
     }
 })
 
-//delete images
 router.post('/remove', auth, authAdmin, (req, res) => { 
    try {
         const {public_id} = req.body;

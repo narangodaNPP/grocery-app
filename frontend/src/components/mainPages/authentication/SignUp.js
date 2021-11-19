@@ -9,7 +9,7 @@ const theme = createTheme();
 
 function SignUp() {
     const [user, setUser] = useState({
-        name: '', email: '', password: ''
+        first_name: '', last_name: '', email: '', password: ''
     })
 
     const onChangeInput = e => {
@@ -32,17 +32,20 @@ function SignUp() {
         <ThemeProvider theme={theme}>
           <Container component="main" maxWidth="xs"  sx ={{marginTop: 8, pb: 4, border: '1px solid blue'}}>
             <Box sx={{ marginTop: 8, display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
-                <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+                <Avatar sx={{ m: 1,}}>
                     <LockOutlinedIcon />
                 </Avatar>
-                <Typography component="h1" variant="h5">
+                <Typography component="h1" variant="h5" sx ={{ m: 1,}}>
                     Sign up
                 </Typography>
 
                 <Box component="form" onSubmit={signupSubmit} sx={{ mt: 3 }}>
                     <Grid container spacing={2}>
-                        <Grid item xs={12}>
-                            <TextField id="name" name="name" type="text" placeholder="Name" value = {user.name} onChange={onChangeInput} required fullWidth />
+                        <Grid item xs={6}>
+                            <TextField id="first_name" name="first_name" type="text" placeholder="First Name" value = {user.first_name} onChange={onChangeInput} required fullWidth />
+                        </Grid>
+                        <Grid item xs={6}>
+                            <TextField id="last_name" name="last_name" type="text" placeholder="Last Name" value = {user.last_name} onChange={onChangeInput} required fullWidth />
                         </Grid>
                         <Grid item xs={12}>
                             <TextField id="email" name="email" type="email" placeholder="Email Address" value = {user.email} onChange={onChangeInput} required fullWidth />

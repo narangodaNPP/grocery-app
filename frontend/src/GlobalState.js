@@ -1,8 +1,8 @@
 import React, {createContext, useState, useEffect} from 'react';
-import ProductAPI from './api/ProductAPI';
-import axios from 'axios';
 import UserAPI from './api/UserAPI';
+import ProductAPI from './api/ProductAPI';
 import CategoriesAPI from './api/CategoriesAPI';
+import axios from 'axios';
 
 export const  GlobalState = createContext();
 
@@ -24,8 +24,6 @@ export const DataProvider = ({children}) => {
             }
             refreshToken();
         }
-        // const firstLogin = localStorage.getItem('firstLogin');
-        // if(firstLogin) refreshToken(); 
     }, [])
 
     const state = {
