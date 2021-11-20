@@ -1,6 +1,6 @@
 import React, {useContext} from 'react';
 import {Switch, Route} from 'react-router-dom';
-import {GlobalState} from '../../GlobalState';
+import {GlobalState} from '../GlobalState';
 import Cart from './cart/Cart';
 import SignIn from './authentication/SignIn';
 import SignUp from './authentication/SignUp';
@@ -9,11 +9,11 @@ import NotFound from './utils/NotFound'
 import OrderHistory from './orders/OrderHistory';
 import OrderDetails from './orders/OrderDetails';
 import Categories from './categories/Categories';
-import CreateProduct from './categories/CreateProduct';
+import CreateProduct from './products/CreateProduct';
 import Checkout from './checkout/Checkout';
 import ReviewOrder from './checkout/ReviewOrder'
 
-function Pages() {
+export default function Pages() {
 
     const state = useContext(GlobalState);
     const [isLogged] = state.userAPI.isLogged;
@@ -31,7 +31,7 @@ function Pages() {
             <Route path="/History" exact componet={isLogged ? OrderHistory : NotFound}/>
             <Route path="/History/:id" exact componet={isLogged ? OrderDetails : NotFound}/>
             <Route path="/CreateProduct" exact component={isAdmin ? CreateProduct : NotFound}/>
-            <Route path="/EditProduct" exact component={isAdmin ? CreateProduct : NotFound}/>
+            <Route path="/EditProduct/:id" exact component={isAdmin ? CreateProduct : NotFound}/>
             <Route path="/Checkout" exact component={isLogged ? Checkout : NotFound}/>
             <Route path="/ReviewOrder" exact component={isLogged ? ReviewOrder : NotFound}/>
 
@@ -41,4 +41,4 @@ function Pages() {
     )
 }
 
-export default Pages
+

@@ -13,7 +13,7 @@ export default function SignIn() {
         email: '', password: ''
     })
 
-    const onChangeInput = e => {
+    const onChangeInput = (e) => {
         const {name, value} = e.target; 
         setUser({...user, [name]: value});
     }
@@ -21,8 +21,9 @@ export default function SignIn() {
     const signinSubmit = async e => {
         e.preventDefault();
         try {
-            await axios.post('/user/login', {...user})
-            localStorage.setItem('fisrtLogin', true);
+            const res = await axios.post('/user/login', {...user})
+            localStorage.setItem('firstlogin', true);
+            localStorage.setItem('accessToken', res.data.accesstoken)
             window.location.href = '/';
         } catch (err) {
             alert(err.response.data.msg)

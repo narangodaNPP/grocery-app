@@ -1,9 +1,10 @@
 import {useState, useEffect} from 'react';
 import axios from 'axios';
 
-function UserAPI(token) {
+export default function UserAPI(token) {
     const [isLogged, setIsLogged] = useState(false);
     const [isAdmin, setIsAdmin] = useState(false);
+    const [history, setHistory] = useState([])
     const [cart, setCart] = useState([]);
 
     useEffect(() =>{
@@ -11,7 +12,7 @@ function UserAPI(token) {
             const getUser = async () => {
                 try {   
                     const res = await axios.get('/user/infor', {headers: {Authorization: token}})
-                    console.log(res);
+                    // console.log(res);
                     setIsLogged(true);
                     res.data.role === 1 ? setIsAdmin(true) : setIsAdmin(false);
                     setCart(res.data.cart)
@@ -25,7 +26,7 @@ function UserAPI(token) {
     }, [token])
     
     const addCart = async(product) => {
-        if(!isLogged) return alert("Please Sign-in or Sign-up")
+        if(!isLogged) return alert("Please Sign-in or Sign-up first")
 
         const checkCart = cart.every(item => {
             return item._id !== product._id
@@ -34,9 +35,7 @@ function UserAPI(token) {
         if(checkCart){
             setCart([...cart, {...product, quantity: 1}])
 
-            await axios.patch('/user/addcart', {cart: [...cart, {...product, quantity: 1}]}, {
-                headers: {Authorization: token}
-            })
+            await axios.patch('/user/addcart', {cart: [...cart, {...product, quantity: 1}]}, {headers: {Authorization: token}})
 
         }else{
             alert("Product already added")
@@ -48,7 +47,8 @@ function UserAPI(token) {
         isAdmin: [isAdmin, setIsAdmin],
         cart: [cart, setCart],
         addCart: addCart,
+        history: [history, setHistory]
     }
 }
 
-export default UserAPI
+

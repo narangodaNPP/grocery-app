@@ -10,3 +10,5 @@ export default function Loading() {
         </Box>
       );
 }
+
+// Need to create something more creative loading

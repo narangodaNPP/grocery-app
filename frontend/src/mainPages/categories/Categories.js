@@ -1,14 +1,14 @@
 import React, {useState, useContext} from 'react';
-import {GlobalState} from '../../../GlobalState';
+import {GlobalState} from '../../GlobalState';
+import {Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography, TextField, Button, Container, Stack, Divider} from '@mui/material';
 import {createTheme, ThemeProvider} from '@mui/material/styles';
 import {Link} from 'react-router-dom';
-import {Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography, TextField, Button, Container, Stack, Divider} from '@mui/material';
 import axios from 'axios';
 
 export default function Categories() {
     const state = useContext(GlobalState);
-    const [categories] = state.categoriesAPI.categories
-    const [category, setCategory] = useState('')
+    const [categories] = state.categoriesAPI.categories;
+    const [category, setCategory] = useState('');
     const [token] = state.token;
     const [callback, setCallback] = state.categoriesAPI.callback;
     const [id, setId] = useState('');
@@ -53,6 +53,7 @@ export default function Categories() {
 
     return (
         <ThemeProvider theme={theme}>
+
             <Container sx ={{marginTop: 8, pb: 4, width: '80%', border: '1px solid blue'}}>
                 {/* Heading */}
                 <Box component = 'div' sx ={{display: 'flex', justifyContent: 'center', flexDirection: 'row', p: 1, m: 1}}>
@@ -79,19 +80,20 @@ export default function Categories() {
                             <TableBody>
                             {categories.map((category) => (
                                 <TableRow key={category._id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                                <TableCell component="th" scope="row">
-                                    {category.name}
-                                </TableCell>
-                                <TableCell align="right">
-                                    <Button variant="outlined" color = 'success' size="small" onClick = {() => editCategory(category._id, category.name)}>
-                                        Edit
-                                    </Button>
-                                </TableCell>
-                                <TableCell align="right">
-                                    <Button variant="outlined" color = 'success' size="small" onClick = {() => deleteCategory(category._id)}>
-                                        Delete
-                                    </Button> 
-                                </TableCell>
+                                    
+                                    <TableCell component="th" scope="row">
+                                        {category.name}
+                                    </TableCell>
+                                    <TableCell align="right">
+                                        <Button variant="outlined" color = 'success' size="small" onClick = {() => editCategory(category._id, category.name)}>
+                                            Edit
+                                        </Button>
+                                    </TableCell>
+                                    <TableCell align="right">
+                                        <Button variant="outlined" color = 'success' size="small" onClick = {() => deleteCategory(category._id)}>
+                                            Delete
+                                        </Button> 
+                                    </TableCell>
                                 
                                 </TableRow>
                             ))}
