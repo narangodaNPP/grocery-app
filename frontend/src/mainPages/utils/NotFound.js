@@ -9,3 +9,6 @@ function NotFound() {
 }
 
 export default NotFound
+
+// Still not fully designed 
+// This is basic way

@@ -1,46 +1,46 @@
 import React,{useContext} from 'react';
-import {GlobalState} from '../../../GlobalState';
+import {GlobalState} from '../../GlobalState';
 import {Card, CardActions, CardContent, CardMedia, Typography, Button, Box, Paper, Stack} from '@mui/material';
 import {Link} from 'react-router-dom';
 import axios from 'axios'
 
 
-export default function ProductItem({product, isAdmin, token, callback, setCallback}) {
+export default function ProductItem({product, isAdmin, deleteProduct, handleCheck}) {
     const state = useContext(GlobalState);
     const addCart = state.userAPI.addCart;
-    const [products, setProducts] = state.productAPI.products;
+    // const [products, setProducts] = state.productAPI.products;
 
-    const deleteProduct = async () => {
-        console.log(product.id);
-        try {
-            const removeImg = axios.post('/api/remove', {public_id: product.images.public_id}, {
-                headers: {Authorization: token}
-            });
+    // const deleteProduct = async () => {
+    //     console.log(product.id);
+    //     try {
+    //         const removeImg = axios.post('/api/remove', {public_id: product.images.public_id}, {
+    //             headers: {Authorization: token}
+    //         });
 
-            const deleteProduct = axios.delete(`/api/products/${product._id}`, {
-                headers: {Authorization: token}
-            });
+    //         const deleteProduct = axios.delete(`/api/products/${product._id}`, {
+    //             headers: {Authorization: token}
+    //         });
 
-            await removeImg;
-            await deleteProduct;
-            setCallback(!callback);
+    //         await removeImg;
+    //         await deleteProduct;
+    //         setCallback(!callback);
 
-        } catch (err) {
-            alert(err.response.data.msg);
-        }
-    }
+    //     } catch (err) {
+    //         alert(err.response.data.msg);
+    //     }
+    // }
 
-    const handleCheck = (id) => {
-        // console.log(product.checked)
-        products.forEach(product => {
-            if(product._id === id) product.checked = ! product.checked;
-        })
-        setProducts([...products])
-    }
+    // const handleCheck = (id) => {
+    //     // console.log(product.checked)
+    //     products.forEach(product => {
+    //         if(product._id === id) product.checked = ! product.checked;
+    //     })
+    //     setProducts([...products])
+    // }
     return (
         <Box sx ={{height: '100%', display: 'flex', flexDirection: 'column'}}>
             {
-                isAdmin && <input type="checkbox" checked = {product.checked} onClick={handleCheck}/>
+                isAdmin && <input type="checkbox" checked = {product.checked} onChange={() => handleCheck(product._id)}/>
             }
             <Card component = {Paper} sx ={{marginTop: '10px', marginBottom: '10px'}} elevation = {12}>
                 <CardMedia component="img" sx={{pt: '0',}} image = {product.image.url} alt="/" />
@@ -58,11 +58,11 @@ export default function ProductItem({product, isAdmin, token, callback, setCallb
                                 </Box>
                                 <Box sx ={{display: 'flex', border: '1px solid blue', justifyContent: 'space-around', marginTop: 0.5, marginBottom: 1, }}>
                                     <Button color="inherit" variant = 'outlined'>
-                                        <Link style={{textDecoration: 'none'}} to='/EditProduct'>
+                                        <Link style={{textDecoration: 'none'}} to={`/EditProduct/${product._id}`}>
                                             Edit
                                         </Link>
                                     </Button>
-                                    <Button color="inherit" variant = 'outlined' onClick={deleteProduct}>
+                                    <Button color="inherit" variant = 'outlined' onClick={() => deleteProduct(product._id, product.images.public_id)}>
                                         <Link style={{textDecoration: 'none'}} to='/'>
                                             Delete
                                         </Link>

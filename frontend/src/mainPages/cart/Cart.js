@@ -1,21 +1,19 @@
 import React, {useContext, useState, useEffect} from 'react';
-import {GlobalState} from '../../../GlobalState';
-import {Card, CardActions, CardContent, CardMedia, Button, Container, Tooltip, Stack, Box, Paper, IconButton, Typography} from '@mui/material';
-import DeleteIcon from '@mui/icons-material/Delete';
+import {GlobalState} from '../../GlobalState';
+import {Card, CardActions, CardContent, CardMedia, Button, Container, Tooltip, Stack, Box, Paper, IconButton, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from '@mui/material';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
-// import {styled} from '@mui/material/styles';
 import {Link} from 'react-router-dom';
 import axios from 'axios';
 import ClearIcon from '@mui/icons-material/Clear';
 import {createTheme, ThemeProvider} from '@mui/material/styles';
 import { green } from '@mui/material/colors';
 
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
+//import {Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from '@mui/material/Table';
+// import TableBody from '@mui/material/TableBody';
+// import TableCell from '@mui/material/TableCell';
+// import TableContainer from '@mui/material/TableContainer';
+// import TableHead from '@mui/material/TableHead';
+// import TableRow from '@mui/material/TableRow';
 
 export default function Cart() {
     const state = useContext(GlobalState);
@@ -36,10 +34,8 @@ export default function Cart() {
         getTotal();
     }, [cart])
 
-    const addToCart = async () => {
-        await axios.patch('/user/addcart', {cart}, {
-            headers: {Authorization: token}
-        })
+    const addToCart = async (cart) => {
+        await axios.patch('/user/addcart', {cart}, {headers: {Authorization: token}})
     }
 
     const increment = (id) => {
@@ -49,7 +45,7 @@ export default function Cart() {
             }
         })
         setCart([...cart]);
-        addToCart();
+        addToCart(cart);
     }
 
     const decrement = (id) => {
@@ -59,7 +55,17 @@ export default function Cart() {
             }
         })
         setCart([...cart]);
-        addToCart();
+        addToCart(cart);
+    }
+
+    const placeOrder = async(checkout) => {
+        const {paymentID, houseNo, street, city} = checkout;
+
+        await axios.post('/api/checkout', {cart, paymentID, houseNo, street, city}, {headers: {Authorization: token}})
+
+        setCart([])
+        addToCart([])
+        alert("Placing order completed")
     }
 
     const removeProduct = (id) => {
@@ -69,11 +75,9 @@ export default function Cart() {
             }
         })
         setCart([...cart]);
-        addToCart();
+        addToCart(cart);
     }
-    const styles = 
-    {
-
+    const styles = {
         media: {
             height: 'auto',
             width: 'auto',
@@ -87,7 +91,9 @@ export default function Cart() {
     //     color: theme.palette.text.secondary,
     //   }));
 
-    if(cart.length === 0) return (
+    // if cart is empty
+    if(cart.length === 0) 
+    return (
         
         <Container maxWidth="md" sx ={{marginTop: 8, pb: 4, }}>
             <Box sx={{ marginTop: 4, display: 'flex', flexDirection: 'column', alignItems: 'center', }}>
@@ -116,6 +122,7 @@ export default function Cart() {
         
             <TableContainer component={Paper} sx ={{marginTop: 8, width: '80%', overflowX: "auto", margin: "auto"}} >
                 <Table>
+
                     <TableHead>
                         <TableRow>
                             <TableCell>Item</TableCell>
@@ -127,6 +134,7 @@ export default function Cart() {
                             <TableCell align="center"></TableCell>
                         </TableRow>
                     </TableHead>
+
                     <TableBody>
                         {cart.map((product) => (
                             <TableRow key={product._id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
@@ -169,7 +177,7 @@ export default function Cart() {
                                 <TableCell><h3> Full Total Rs:{total}</h3></TableCell>
                                 
                                 <TableCell>
-                                    <Link to ='/Checkout' style={{textDecoration: 'none'}}><Button variant='contained' color = 'success' size = 'small' >Proceed Checkout</Button></Link>
+                                    <Link to ='/Checkout' style={{textDecoration: 'none'}}><Button variant='contained' color = 'success' size = 'small' placeOrder ={placeOrder} >Proceed Checkout</Button></Link>
                                 </TableCell>
                             </TableRow>
                     </TableBody>
@@ -179,6 +187,7 @@ export default function Cart() {
         )
     }
     
+    // Still some confusions
     
     // <Stack>
     //     {cart.map(product => (

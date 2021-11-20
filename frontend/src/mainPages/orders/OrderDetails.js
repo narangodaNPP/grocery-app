@@ -1,11 +1,11 @@
 import React, {useState, useEffect, useContext} from 'react';
 import {useParams} from 'react-router-dom';
-import {GlobalState} from '../../../GlobalState';
+import {GlobalState} from '../../GlobalState';
 
 export default function OrderDetails() {
-    const state = useContext(GlobalState)
-    const [history] = state.userAPI.history
-    const [orderDetails, setOrderDetails] = useState([])
+    const state = useContext(GlobalState);
+    const [history] = state.userAPI.history;
+    const [orderDetails, setOrderDetails] = useState([]);
 
     const params = useParams()
 
@@ -18,25 +18,24 @@ export default function OrderDetails() {
     },[params.id, history])
 
 
-    if(orderDetails.length === 0) return null;
+    if(orderDetails.length === 0) 
+        return null;
 
     return (
         <div>
             <table>
                 <thead>
                     <tr>
-                        <th>Name</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
                         <th>Address</th>
-                        <th>Postal Code</th>
-                        <th>Country Code</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td>{orderDetails.address.recipient_name}</td>
-                        <td>{orderDetails.address.line1 + " - " + orderDetails.address.city}</td>
-                        <td>{orderDetails.address.postal_code}</td>
-                        <td>{orderDetails.address.country_code}</td>
+                        <td>{orderDetails.address.recipient_first_name}</td>
+                        <td>{orderDetails.address.recipient_last_name}</td>
+                        <td>{orderDetails.address.houseNo + ", " + orderDetails.address.street + ", " +orderDetails.address.city}</td>
                     </tr>
                 </tbody>
             </table>
@@ -67,5 +66,3 @@ export default function OrderDetails() {
         </div>
     )
 }
-
-// export default OrderDetails

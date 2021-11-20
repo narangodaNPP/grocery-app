@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Grid, Typography, TextField, FormControlLabel, Checkbox, Box, Container, Button, Radio, FormControl, FormLabel, RadioGroup} from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import {Link} from 'react-router-dom';
@@ -8,17 +8,20 @@ export default function Checkout() {
 
     const theme = createTheme();
 
-    // const onChangeInput = e => {
-    //     const {name, value} = e.target;
-    //     setUser({...user, [name]: value});
-    // }
+    const [checkout, setCheckout] = useState({
+        first_name: '', last_name: '', contactNo: '', houseNo: '', street: '', city: ''
+    })
+
+    const onChangeInput = e => {
+        const {name, value} = e.target;
+        setCheckout({...checkout, [name]: value});
+    }
 
     const checkoutSubmit = async e => {
         e.preventDefault();
         try {
-            // await axios.post('/user/register', {...user});
-            // localStorage.setItem('firstLogin', true);
-            window.location.href ="/ReviewOrder"
+            await axios.post('/api/checkout', {...checkout}, {headers: {Authorization: "test"}});
+            window.location.href ="/"
         } catch (err) {
             alert(err.response.data.msg)
         }
@@ -35,32 +38,32 @@ export default function Checkout() {
                     <Box component= 'form' onSubmit={checkoutSubmit}>
                         <Grid container spacing={3}>
                             <Grid item xs={6}>
-                                <TextField required id="firstName" name="firstName" label="First name" fullWidth variant="standard"/>
+                                <TextField required id="firstName" name="firstName" label="First name" fullWidth variant="standard" onChange={onChangeInput}/>
                             </Grid>
                             <Grid item xs={6} >
-                                <TextField required id="lastName" name="lastName" label="Last name" fullWidth variant="standard"/>
+                                <TextField required id="lastName" name="lastName" label="Last name" fullWidth variant="standard" onChange={onChangeInput}/>
                             </Grid>
                             <Grid item xs={6} >
-                                <TextField required id="contactNo" name="contactNo" label="Contact No:" fullWidth variant="standard" />
+                                <TextField required id="contactNo" name="contactNo" label="Contact No:" fullWidth variant="standard"  onChange={onChangeInput}/>
                             </Grid>
                             <Grid item xs={6} >
-                                <TextField required id="houseNo" name="houseNo" label="House No:" fullWidth  variant="standard"/>
+                                <TextField required id="houseNo" name="houseNo" label="House No:" fullWidth  variant="standard" onChange={onChangeInput}/>
                             </Grid>
                             <Grid item xs={6} >
-                                <TextField required id="street" name="street" label="Street" fullWidth variant="standard"/>
+                                <TextField required id="street" name="street" label="Street" fullWidth variant="standard" onChange={onChangeInput}/>
                             </Grid>
                             <Grid item xs={6} >
-                                <TextField required id="city" name="city" label="City" fullWidth  variant="standard" />
+                                <TextField required id="city" name="city" label="City" fullWidth  variant="standard" onChange={onChangeInput} />
                             </Grid>
-                            <Grid item xs={12} >
+                            {/*<Grid item xs={12} >
                                 <FormControl component="fieldset" required>
                                     <FormLabel component="legend">Payment Method</FormLabel>
                                         <RadioGroup row aria-label="Payment Method" name="row-radio-buttons-group">
-                                            <FormControlLabel value="cash" control={<Radio />} label="Cash on Delivery" />
-                                            <FormControlLabel value="card" control={<Radio />} label="Card on Delivery" />
+                                            <FormControlLabel value="cash" control={<Radio />} label="Cash on Delivery" onChange={onChangeInput}/>
+                                            <FormControlLabel value="card" control={<Radio />} label="Card on Delivery" onChange={onChangeInput}/>
                                         </RadioGroup>
                                 </FormControl>
-                            </Grid>
+                            </Grid>*/}
                             
                         </Grid>
                         <Box sx ={{display: 'flex', justifyContent: 'flex-end',}}>

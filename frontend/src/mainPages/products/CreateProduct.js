@@ -1,19 +1,13 @@
 import React, {useState, useContext, useEffect} from 'react';
 import axios from 'axios';
-import {GlobalState} from '../../../GlobalState';
+import {GlobalState} from '../../GlobalState';
 import {useHistory, useParams} from 'react-router-dom';
 import {Box, Typography, TextField, Button, Container, Stack, Card, CardMedia, IconButton, Tooltip} from '@mui/material';
 import {createTheme, ThemeProvider} from '@mui/material/styles';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import {grey} from '@mui/material/colors';
 
-const initialState = {
-    product_id: '',
-    title: '',
-    price: 0,
-    category: '',
-    _id: '',
-}
+const initialState = { product_id: '', title: '', price: 0, category: '', _id: '',}
 
 export default function CreateProduct() {
     const state = useContext(GlobalState);
@@ -24,9 +18,11 @@ export default function CreateProduct() {
     const [token] = state.token;
     const history = useHistory();
     const params = useParams();
-    const [products, setProducts] = state.productAPI.products;
+    const [products] = state.productAPI.products;
     const [onEdit, setOnEdit] = useState(false);
     const [callback, setCallback] = state.productAPI.callback;
+
+    const theme = createTheme();
 
     useEffect(() => {
         if(params.id){
@@ -46,8 +42,7 @@ export default function CreateProduct() {
            
     }, [params.id, products])
 
-    const theme = createTheme();
-
+    
     const handleUpload = async (e) => {
         e.preventDefault();
         try{
@@ -83,7 +78,7 @@ export default function CreateProduct() {
         setImages(false);
     }
 
-    const handleChangeInput = async (e) => {
+    const onChangeInput = async (e) => {
         const {name, value} = e.target;
         setProduct({...product, [name]: value})
 
@@ -112,6 +107,7 @@ export default function CreateProduct() {
 
     return (
         <ThemeProvider theme={theme}>
+
             <Container sx ={{marginTop: 8, pb: 4, width: '80%', border: '1px solid blue'}}>
                 <Box component = 'div' sx ={{display: 'flex', justifyContent: 'center', flexDirection: 'row', p: 1, m: 1,  border: '1px solid blue'}}>
                     <Typography component="h1" variant="h5" sx ={{justifyContent: 'center'}}>
@@ -138,7 +134,7 @@ export default function CreateProduct() {
                                 images ?<Stack direction = 'row' spacing ={2}>
                                             <Button variant="outlined" component="label" color ='success'>
                                                 Change
-                                                <input type="file" hidden onChange = {handleUpload}/>
+                                                <input type="file" name="file" hidden onChange = {handleUpload}/>
                                             </Button>
                                             <Button variant="outlined" onClick = {handleRemove} color ='success'>
                                                 Remove
@@ -147,7 +143,7 @@ export default function CreateProduct() {
                                         :
                                         <Button variant="outlined" component="label" color = 'success'>
                                             Upload
-                                            <input type="file" hidden onChange = {handleUpload}/>
+                                            <input type="file" name="file" hidden onChange = {handleUpload}/>
                                         </Button>
 
                             }
@@ -156,13 +152,13 @@ export default function CreateProduct() {
                     </Box>
 
                     {/* product detail editing section */}
-                    <Box component = 'form' sx={{m:2}}>
+                    <Box component = 'form' sx={{m:2}} onSubmit={handleSubmit}>
                         <Stack direction = 'row' spacing = {2} mb = {3} mt ={3}>
                             <Box width = '30%'>
                                 <label htmlFor="product_id">P. ID</label>
                             </Box>
                             <Box>
-                                <input type="text" name="product_id" id="product_id" required value={product.product_id} onChange={handleChangeInput} disabled={product._id}/>
+                                <input type="text" name="product_id" id="product_id" required value={product.product_id} onChange={onChangeInput} disabled={onEdit}/>
                             </Box>
                         </Stack>
                         <Stack direction = 'row' spacing = {2} mb ={3}>
@@ -170,7 +166,7 @@ export default function CreateProduct() {
                                 <label htmlFor="title">Title</label>
                             </Box>
                             <Box>
-                                <input type="text" name="title" id="title" required value={product.title} onChange={handleChangeInput}/>
+                                <input type="text" name="title" id="title" required value={product.title} onChange={onChangeInput}/>
                             </Box>
                         </Stack>
                         <Stack direction = 'row' spacing = {2} mb = {3}>
@@ -178,15 +174,18 @@ export default function CreateProduct() {
                                 <label htmlFor="price">Price</label>
                             </Box>
                             <Box>
-                                <input type="number" name="price" id="price" required value={product.price} onChange={handleChangeInput}/>
+                                <input type="number" name="price" id="price" required value={product.price} onChange={onChangeInput}/>
                             </Box> 
                         </Stack>
                         <Stack direction = 'row' spacing = {2} mb = {3}>
+
                             <Box width = '30%'>
                                 <label htmlFor="categories">Categories: </label>
                             </Box>
+
                             <Box>
-                                <select name="category" value={product.category} >
+
+                                <select name="category" value={product.category} onChange={onChangeInput}>
                                     <option value="">Select category</option>
                                     {
                                         categories.map(category => (
@@ -202,13 +201,15 @@ export default function CreateProduct() {
                         </Stack>
 
                         <Stack direction = 'row' spacing = {2} mb = {3}>
-                            <Button type="submit" color = 'success' variant="contained" sx={{ mt: 3, mb: 2 }} fullWidth onClick ={handleSubmit}>
-                                Create
+                            <Button type="submit" color = 'success' variant="contained" sx={{ mt: 3, mb: 2 }} fullWidth>
+                                {onEdit? "Update" : "Create"}
                             </Button>
                         </Stack>
+
                     </Box>
                 </Box>
             </Container>
+            
         </ThemeProvider>
     )
 }
@@ -230,19 +231,19 @@ export default function CreateProduct() {
 //                 <div className="row">
 //                     <label htmlFor="product_id">Product ID</label>
 //                     <input type="text" name="product_id" id="product_id" required
-//                     value={product.product_id} onChange={handleChangeInput} disabled={product._id}/>
+//                     value={product.product_id} onChange={onChangeInput} disabled={product._id}/>
 //                 </div>
 
 //                 <div className="row">
 //                     <label htmlFor="title">Title</label>
 //                     <input type="text" name="title" id="title" required
-//                     value={product.title} onChange={handleChangeInput}/>
+//                     value={product.title} onChange={onChangeInput}/>
 //                 </div>
 
 //                 <div className="row">
 //                     <label htmlFor="price">Price</label>
 //                     <input type="number" name="price" id="price" required
-//                     value={product.price} onChange={handleChangeInput}/>
+//                     value={product.price} onChange={onChangeInput}/>
 //                 </div>
 
 //                 <div className="row">
