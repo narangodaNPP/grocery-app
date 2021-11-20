@@ -21,9 +21,9 @@ export default function SignIn() {
     const signinSubmit = async e => {
         e.preventDefault();
         try {
-            const res = await axios.post('/user/login', {...user})
-            localStorage.setItem('firstlogin', true);
-            localStorage.setItem('accessToken', res.data.accesstoken)
+            await axios.post('/user/login', {...user})
+            localStorage.setItem('firstLogin', true);
+            // localStorage.setItem('accessToken', res.data.accesstoken)
             window.location.href = '/';
         } catch (err) {
             alert(err.response.data.msg)
