@@ -31,7 +31,7 @@ const userControl = {
             res.cookie('refreshtoken', refreshtoken, {
                 httpOnly: true,
                 path: '/user/refresh_token',
-                maxAge: 7*24*60*60*1000,
+                maxAge: 7*24*60*60*1000, //for week
             })
 
             res.json({accesstoken})

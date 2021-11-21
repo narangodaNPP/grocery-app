@@ -12,6 +12,7 @@ export default function Header() {
     const [isAdmin] = state.userAPI.isAdmin;
     const [cart] = state.userAPI.cart;
 
+    // special functions for admin users
     const adminRouter = () => {
         return(
             <Box sx = {{display: {md: 'flex', xs: 'none'}}}>
@@ -21,12 +22,14 @@ export default function Header() {
         )
     }
 
+    //logout function
     const userLogout = async () => {
         await axios.get('/user/logout')
         localStorage.removeItem('firstLogin');
         window.location.href ='/';
     }
 
+    //functions for logged users
     const loggedRouter = () => {
         return(
             <Box sx = {{display: {md: 'flex', xs: 'none'}}}>

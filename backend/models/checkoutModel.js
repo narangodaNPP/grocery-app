@@ -2,25 +2,28 @@ const mongoose = require('mongoose')
 
 
 const checkoutSchema = new mongoose.Schema({
-    user_id: {
-        type: String,
-        required: true
-    },
+    // checkout_id: {
+    //     type: String,
+    //     required: true
+    // },
     first_name:{
         type: String,
-        required: true
+        required: false,
+        trim: true,
     },
     last_name:{
         type: String,
-        required: true
+        required: false,
+        trim: true,
     },
-    contact:{
-        type: Object,
-        required: true
-    },
-    paymentID:{
-        type: String,
-        required: true
+    contact: {
+        type: Number,
+        validate: {
+            validator: function(v) {
+                return /d{10}/.test(v);
+            },
+            message: '{VALUE} is not a valid 10 digit number!'
+        }
     },
     houseNo:{
         type: String,

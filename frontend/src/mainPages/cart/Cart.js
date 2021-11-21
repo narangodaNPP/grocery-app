@@ -1,19 +1,12 @@
 import React, {useContext, useState, useEffect} from 'react';
 import {GlobalState} from '../../GlobalState';
-import {Card, CardActions, CardContent, CardMedia, Button, Container, Tooltip, Stack, Box, Paper, IconButton, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from '@mui/material';
+import {Card, CardMedia, Button, Container, Tooltip, Stack, Box, Paper, IconButton, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from '@mui/material';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import {Link} from 'react-router-dom';
 import axios from 'axios';
 import ClearIcon from '@mui/icons-material/Clear';
 import {createTheme, ThemeProvider} from '@mui/material/styles';
 import { green } from '@mui/material/colors';
-
-//import {Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from '@mui/material/Table';
-// import TableBody from '@mui/material/TableBody';
-// import TableCell from '@mui/material/TableCell';
-// import TableContainer from '@mui/material/TableContainer';
-// import TableHead from '@mui/material/TableHead';
-// import TableRow from '@mui/material/TableRow';
 
 export default function Cart() {
     const state = useContext(GlobalState);
@@ -59,13 +52,12 @@ export default function Cart() {
     }
 
     const placeOrder = async(checkout) => {
-        const {paymentID, houseNo, street, city} = checkout;
+        const { cart } = checkout;
 
-        await axios.post('/api/checkout', {cart, paymentID, houseNo, street, city}, {headers: {Authorization: token}})
+        await axios.post('/api/checkout', {cart}, {headers: {Authorization: token}})
 
-        setCart([])
-        addToCart([])
-        alert("Placing order completed")
+        setCart([...cart])
+        addToCart([cart])
     }
 
     const removeProduct = (id) => {
@@ -84,13 +76,7 @@ export default function Cart() {
         }
     };
 
-    // const Item = styled(Paper)(({ theme }) => ({
-    //     ...theme.typography.body2,
-    //     padding: theme.spacing(1),
-    //     textAlign: 'center',
-    //     color: theme.palette.text.secondary,
-    //   }));
-
+    
     // if cart is empty
     if(cart.length === 0) 
     return (
@@ -177,7 +163,7 @@ export default function Cart() {
                                 <TableCell><h3> Full Total Rs:{total}</h3></TableCell>
                                 
                                 <TableCell>
-                                    <Link to ='/Checkout' style={{textDecoration: 'none'}}><Button variant='contained' color = 'success' size = 'small' placeOrder ={placeOrder} >Proceed Checkout</Button></Link>
+                                    <Link to ='/Checkout' style={{textDecoration: 'none'}}><Button variant='contained' color = 'success' size = 'small' placeOrder={placeOrder} >Proceed Checkout</Button></Link>
                                 </TableCell>
                             </TableRow>
                     </TableBody>
@@ -189,35 +175,3 @@ export default function Cart() {
     
     // Still some confusions
     
-    // <Stack>
-    //     {cart.map(product => (
-    //         <Item key = {product._id}>
-    //             <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
-    //                 <CardContent sx={{ display: 'flex', flexDirection: 'row-reverse'}}>
-    //                     <Link to="/Cart" style={{textDecoration: 'none'}} onClick={() => removeProduct(product._id)}><DeleteIcon/></Link>
-    //                 </CardContent>
-    //                 <CardMedia component="img" sx={{pt: '0',}} image = {product.image.url} alt="/" />
-                    
-    //                 <CardContent sx={{ flexGrow: 1 }}>
-    //                     <Typography gutterBottom variant="h5" component="h2">
-    //                         {product.title}
-    //                     </Typography>
-    //                     <Typography>
-    //                         {product.price * product.quantity}
-    //                     </Typography>
-    //                 </CardContent>
-    //                 <CardActions>
-    //                     <Button variant='contained' color='success' size="small" onClick={() => increment(product._id)}>+</Button>
-    //                     <Box size="small">{product.quantity}</Box>
-    //                     <Button variant='contained' color='success' size="small" onClick={() => decrement(product._id)}>-</Button>
-    //                 </CardActions>
-    //             </Card>
-    //         </Item>
-    //     ))
-    //     } 
-
-    //     <Item>
-    //         <h3>Total: Rs:{total}</h3>
-    //         <Link to ='/checkout' style={{textDecoration: 'none'}}><Button variant='contained' color = 'success' size = 'small' >Checkout</Button></Link>
-    //     </Item>
-    // </Stack>

@@ -5,7 +5,7 @@ export default function ProductAPI() {
 
     const [products, setProducts] = useState([]);
     const [callback, setCallback] = useState(false);
-    // const [category, setCategory] = useState('')
+    //const [category, setCategory] = useState('')
 
     useEffect(() => {
         const getProducts = async () => {
@@ -21,4 +21,4 @@ export default function ProductAPI() {
     }
 }
 
-// not finished still in some confusion
+// not finished still in some confusion with search

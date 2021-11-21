@@ -23,7 +23,6 @@ export default function SignIn() {
         try {
             await axios.post('/user/login', {...user})
             localStorage.setItem('firstLogin', true);
-            // localStorage.setItem('accessToken', res.data.accesstoken)
             window.location.href = '/';
         } catch (err) {
             alert(err.response.data.msg)
