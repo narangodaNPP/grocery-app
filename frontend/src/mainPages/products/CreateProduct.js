@@ -141,10 +141,12 @@ export default function CreateProduct() {
                                             </Button>
                                         </Stack>
                                         :
+                                        
                                         <Button variant="outlined" component="label" color = 'success'>
                                             Upload
                                             <input type="file" name="file" hidden onChange = {handleUpload}/>
                                         </Button>
+                                            
 
                             }
                         </Box>

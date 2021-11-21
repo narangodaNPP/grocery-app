@@ -64,13 +64,13 @@ const productControl = {
     createProduct: async(req, res) =>{
         try{
             // res.json('test')
-            const {product_id, title, price, image, category} = req.body
-            if(!image) return res.status(400).json({msg: "No image uploaded"})
+            const {product_id, title, price, images, category} = req.body
+            if(!images) return res.status(400).json({msg: "No image uploaded"})
 
             const product = await Products.findOne({product_id})
             if(product) return res.status(400).json({msg: "Product already exists"})
 
-            const newProduct = new Products({product_id, title, price, image, category})
+            const newProduct = new Products({product_id, title, price, images, category})
             // await newProduct.save();
             await newProduct.save();
             res.json({msg: `${title} created successfully`});
@@ -90,10 +90,10 @@ const productControl = {
     }, 
     updateProduct: async(req, res) =>{
         try{
-            const {title, price, image, category} = req.body;
-            if(!image) return res.status(400).json({msg: "No image uploaded"})
+            const {title, price, images, category} = req.body;
+            if(!images) return res.status(400).json({msg: "No image uploaded"})
 
-            await Products.findByIdAndUpdate({_id: req.params.id}, {title, price, image, category})
+            await Products.findByIdAndUpdate({_id: req.params.id}, {title, price, images, category})
             res.json({msg: "Product updated successfully"})
         } catch(err){
             return res.status(500).json({msg: err.message});

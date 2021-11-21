@@ -1,49 +1,21 @@
 import React,{useContext} from 'react';
 import {GlobalState} from '../../GlobalState';
-import {Card, CardActions, CardContent, CardMedia, Typography, Button, Box, Paper, Stack} from '@mui/material';
+import {Card, CardMedia, Button, Box, Paper, Stack} from '@mui/material';
 import {Link} from 'react-router-dom';
-import axios from 'axios'
+import axios from 'axios';
 
 
 export default function ProductItem({product, isAdmin, deleteProduct, handleCheck}) {
     const state = useContext(GlobalState);
     const addCart = state.userAPI.addCart;
-    // const [products, setProducts] = state.productAPI.products;
-
-    // const deleteProduct = async () => {
-    //     console.log(product.id);
-    //     try {
-    //         const removeImg = axios.post('/api/remove', {public_id: product.images.public_id}, {
-    //             headers: {Authorization: token}
-    //         });
-
-    //         const deleteProduct = axios.delete(`/api/products/${product._id}`, {
-    //             headers: {Authorization: token}
-    //         });
-
-    //         await removeImg;
-    //         await deleteProduct;
-    //         setCallback(!callback);
-
-    //     } catch (err) {
-    //         alert(err.response.data.msg);
-    //     }
-    // }
-
-    // const handleCheck = (id) => {
-    //     // console.log(product.checked)
-    //     products.forEach(product => {
-    //         if(product._id === id) product.checked = ! product.checked;
-    //     })
-    //     setProducts([...products])
-    // }
+    
     return (
         <Box sx ={{height: '100%', display: 'flex', flexDirection: 'column'}}>
             {
                 isAdmin && <input type="checkbox" checked = {product.checked} onChange={() => handleCheck(product._id)}/>
             }
             <Card component = {Paper} sx ={{marginTop: '10px', marginBottom: '10px'}} elevation = {12}>
-                <CardMedia component="img" sx={{pt: '0',}} image = {product.image.url} alt="/" />
+                <CardMedia component="img" sx={{pt: '0',}} image = {product.images.url} alt="/" />
             </Card>
             <Box sx ={{display: 'flex', justifyContent: 'center', marginTop: '10px', marginBottom: '10px', border: '1px solid blue'}}>
                 {product.title}
