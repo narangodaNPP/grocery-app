@@ -3,7 +3,6 @@ import {GlobalState} from '../../GlobalState';
 import {Button, Grid, Stack, Box, Typography, Container, Paper} from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import ProductItem from './ProductItem';
-import Loading from '../utils/Loading';
 import axios from 'axios';
 
 export default function Product() {
