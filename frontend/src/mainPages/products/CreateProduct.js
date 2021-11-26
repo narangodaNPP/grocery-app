@@ -2,9 +2,8 @@ import React, {useState, useContext, useEffect} from 'react';
 import axios from 'axios';
 import {GlobalState} from '../../GlobalState';
 import {useHistory, useParams} from 'react-router-dom';
-import {Box, Typography, TextField, Button, Container, Stack, Card, CardMedia, IconButton, Tooltip} from '@mui/material';
+import {Box, Typography, Button, Container, Stack, Card, CardMedia, TextField, FormControl, InputLabel, Select, MenuItem} from '@mui/material';
 import {createTheme, ThemeProvider} from '@mui/material/styles';
-import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import {grey} from '@mui/material/colors';
 
 const initialState = { product_id: '', title: '', price: 0, category: '', _id: '',}
@@ -105,19 +104,21 @@ export default function CreateProduct() {
         }
     }
 
+
     return (
         <ThemeProvider theme={theme}>
 
             <Container sx ={{marginTop: 8, pb: 4, width: '80%', border: '1px solid blue'}}>
-                <Box component = 'div' sx ={{display: 'flex', justifyContent: 'center', flexDirection: 'row', p: 1, m: 1,  border: '1px solid blue'}}>
+                <Box component = 'div' sx ={{display: 'flex', justifyContent: 'center', flexDirection: 'row', p: 1, m: 1,}}>
                     <Typography component="h1" variant="h5" sx ={{justifyContent: 'center'}}>
                         Create Product
                     </Typography>
                 </Box>
 
-                <Box component = 'div' sx ={{display: 'flex', justifyContent: 'space-around', flexDirection: 'row', p: 1, m: 1,  border: '1px solid blue'}}>
-                    {/* product image */}
-                    <Box sx = {{ height: '100%', width: '50%', m: 2,}}>
+                <Box component = 'div' sx ={{display: 'flex', justifyContent: 'space-evenly', flexDirection: 'row', p: 1, m: 1,}}>
+                    {/* product image upload section */}
+                    <Box sx = {{ height: '100%', m: 2,}}>
+                        {/* 4to uploading box */}
                         <Box sx ={{ m: 2,}}>
                             {
                                 images ?<Card> 
@@ -129,6 +130,8 @@ export default function CreateProduct() {
                                         
                             }
                         </Box>
+
+                        {/* uploading button, change button and remove button */}
                         <Box sx ={{display: 'flex', m: 2, justifyContent: 'center', }}>
                             {
                                 images ?<Stack direction = 'row' spacing ={2}>
@@ -150,141 +153,53 @@ export default function CreateProduct() {
 
                             }
                         </Box>
-                        
+
                     </Box>
 
-                    {/* product detail editing section */}
-                    <Box component = 'form' sx={{m:2}} onSubmit={handleSubmit}>
-                        <Stack direction = 'row' spacing = {2} mb = {3} mt ={3}>
-                            <Box width = '30%'>
-                                <label htmlFor="product_id">P. ID</label>
-                            </Box>
-                            <Box>
-                                <input type="text" name="product_id" id="product_id" required value={product.product_id} onChange={onChangeInput} disabled={onEdit}/>
-                            </Box>
-                        </Stack>
-                        <Stack direction = 'row' spacing = {2} mb ={3}>
-                            <Box width = '30%'>
-                                <label htmlFor="title">Title</label>
-                            </Box>
-                            <Box>
-                                <input type="text" name="title" id="title" required value={product.title} onChange={onChangeInput}/>
-                            </Box>
-                        </Stack>
-                        <Stack direction = 'row' spacing = {2} mb = {3}>
-                            <Box width = '30%'>
-                                <label htmlFor="price">Price</label>
-                            </Box>
-                            <Box>
-                                <input type="number" name="price" id="price" required value={product.price} onChange={onChangeInput}/>
-                            </Box> 
-                        </Stack>
-                        <Stack direction = 'row' spacing = {2} mb = {3}>
 
-                            <Box width = '30%'>
-                                <label htmlFor="categories">Categories: </label>
-                            </Box>
+                    {/* product detail form section */}
+                    <Box component = 'form' sx={{m:2, p:2, flexGrow: 1,}} onSubmit={handleSubmit}>
+                       
+                        <Box sx = {{m:2, justifyContent: 'center', display: 'flex'}}>
+                            <TextField type="text" name="product_id" id="product_id" placeholder="Product ID" required value={product.product_id} onChange={onChangeInput} disabled={onEdit} label = "Product ID"/>
+                        </Box>
 
-                            <Box>
+                        <Box sx = {{m:2, justifyContent: 'center', display: 'flex'}}>
+                            <TextField type="text" name="title" id="title" required value={product.title} onChange={onChangeInput} label ="Title"/>
+                        </Box>
+                    
+                        <Box sx = {{m:2, justifyContent: 'center', display: 'flex'}}>
+                            <TextField type="number" name="price" id="price" required value={product.price} onChange={onChangeInput} label = "Price"/>
+                        </Box> 
+                    
+                        <Box sx = {{m:2, justifyContent: 'center', display: 'flex'}}>
 
-                                <select name="category" value={product.category} onChange={onChangeInput}>
-                                    <option value="">Select category</option>
+                            <FormControl sx={{ m: 1, minWidth: 200 }}>
+                                <InputLabel id="category">Select Category</InputLabel>
+                                <Select labelId="category" id="category" name="category" value={product.category} onChange={onChangeInput} autoWidth label ='Select Category'>
                                     {
                                         categories.map(category => (
-                                            <option value={category._id} key={category._id}>
+                                            <MenuItem value={category._id} key={category._id}>
                                                 {category.name}
-                                            </option>
+                                            </MenuItem>
                                         ))
                                     }
-                                </select>
-                            
-                            </Box>
-                            
-                        </Stack>
+                                </Select>
+                            </FormControl>
 
-                        <Stack direction = 'row' spacing = {2} mb = {3}>
-                            <Button type="submit" color = 'success' variant="contained" sx={{ mt: 3, mb: 2 }} fullWidth>
+                        </Box>
+
+                        <Stack direction = 'row' mb = {3} sx ={{justifyContent: 'center'}}>
+                            <Button type="submit" color = 'success' variant="contained" sx={{ mt: 3, mb: 2, width: '50%' }} >
                                 {onEdit? "Update" : "Create"}
                             </Button>
                         </Stack>
 
                     </Box>
+
                 </Box>
             </Container>
             
         </ThemeProvider>
     )
 }
-
-
-// <div>
-//             <div className="upload">
-//                 <input type="file" name="file" id="file_up" onChange = {handleUpload}/>
-//                 {
-//                     <div id="file_img">
-//                         <img src={images ? images.url : ''} alt=""/>
-//                         <span onClick={handleRemove}>X</span>
-//                     </div>
-//                 }
-                
-//             </div>
-
-//             <form onSubmit={handleSubmit}>
-//                 <div className="row">
-//                     <label htmlFor="product_id">Product ID</label>
-//                     <input type="text" name="product_id" id="product_id" required
-//                     value={product.product_id} onChange={onChangeInput} disabled={product._id}/>
-//                 </div>
-
-//                 <div className="row">
-//                     <label htmlFor="title">Title</label>
-//                     <input type="text" name="title" id="title" required
-//                     value={product.title} onChange={onChangeInput}/>
-//                 </div>
-
-//                 <div className="row">
-//                     <label htmlFor="price">Price</label>
-//                     <input type="number" name="price" id="price" required
-//                     value={product.price} onChange={onChangeInput}/>
-//                 </div>
-
-//                 <div className="row">
-//                     <label htmlFor="categories">Categories: </label>
-//                     <select name="category" value={product.category} >
-//                         <option value="">Select category</option>
-//                         {
-//                             categories.map(category => (
-//                                 <option value={category._id} key={category._id}>
-//                                     {category.name}
-//                                 </option>
-//                             ))
-//                         }
-//                     </select>
-//                 </div>
-
-//                 <button type="submit">{onEdit? "Update" : "Create"}</button>
-//             </form>
-//         </div>
-
-
-
-
-// {images ? 
-//     <Box sx ={{display: 'flex', flexDirection: 'row-reverse'}}>
-//     <Tooltip title="Remove Image">
-//     <IconButton onClick={handleRemove} >
-//     <HighlightOffIcon/>
-//     </IconButton>
-//     </Tooltip>    
-//     </Box>
-//     :
-//     ''
-// }                    
-// <Card> 
-//     <CardMedia component="img" image ={images ? images.url : ''} alt=""/>
-    
-// </Card>
-// <Button variant="contained" component="label">
-//     Upload
-//     <input type="file" hidden onChange = {handleUpload}/>
-// </Button>
