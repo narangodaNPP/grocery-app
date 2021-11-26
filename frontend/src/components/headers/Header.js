@@ -41,7 +41,7 @@ export default function Header() {
 
     return (
         <Box sx={{ display: 'flex',}}>
-            <AppBar position="relative" color="transparent">
+            <AppBar position="relative" color="transparent" >
                 <Toolbar>
                     <Box size="large" edge="start" color="inherit" sx={{ mr: 2, display: {md: 'none', xs: 'flex'} }}>
                         <MenuIcon/>
