@@ -51,6 +51,10 @@ export default function Categories() {
         }
     }
 
+    const onChangeInput = async (e) => {
+        setCategory(e.target.value)
+    }
+
     return (
         <ThemeProvider theme={theme}>
 
@@ -62,21 +66,28 @@ export default function Categories() {
                     </Typography>
                 </Box>
 
-                {/* Category editor section */}
+                {/* Category edit form section */}
                 <Box component = 'div' sx ={{display: 'flex', flexDirection: 'row', p: 1, m: 1, justifyContent: 'space-around',}}>
-                    <Box sx ={{display: 'flex', flexDirection: 'row', p: 1, m: 1, border: '1px solid blue', width: '75%', justifyContent: 'center',}}>
+                    <Box sx ={{display: 'flex', flexDirection: 'row', p: 1, m: 1, width: '75%', justifyContent: 'center',}}>
                         <Box component="form" sx={{ mt: 1, display: 'flex', flexDirection: 'column' }} onSubmit = {createCategory}>
                             
-                            <TextField id="category" name="category" type='text' onChange = {e => setCategory(e.target.value)}/>
+                            <TextField id="category" name="category" type='text' onChange = {onChangeInput} placeholder="Category"/>
                              
                             <Button type="submit" color="success" variant="contained" sx={{ mt: 3, mb: 2 }}>{onEdit ? "Update" : "Create"}</Button>
                         </Box>
                     </Box>
 
+
                     {/* Category list vies */}
                     <TableContainer component={Paper}>
                         <Table sx={{ minWidth: 300 }} aria-label="simple table">
-                        
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell>CATEGORY NAME</TableCell>
+                                    <TableCell align="right"></TableCell>
+                                    <TableCell align="right"></TableCell>
+                                </TableRow>
+                            </TableHead>
                             <TableBody>
                             {categories.map((category) => (
                                 <TableRow key={category._id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
