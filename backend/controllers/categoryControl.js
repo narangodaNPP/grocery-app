@@ -3,8 +3,8 @@ const Category = require('../models/categoryModel')
 
 
 const categoryControl = {
+    // get categories saved in db
     getCategories: async(req, res) =>{
-        // res.json("Test category control")
         try {
             const categories = await Category.find()
             res.json(categories)
@@ -13,9 +13,10 @@ const categoryControl = {
            return res.status(500).json({msg: err.message});
         }
     }, 
+
+    // category creating function
     createCategory: async(req, res) =>{
         try {
-            // role = 1 --> user
             const {name} = req.body;
             const category = await Category.findOne({name});
             if(category) return res.status(400).json({msg: 'Category already exists'})
@@ -29,6 +30,8 @@ const categoryControl = {
             res.status(500).json({msg: err.message})
         }
     }, 
+
+    // delete category function
     deleteCategory: async(req, res) =>{
         try {
             await Category.findByIdAndDelete(req.params.id)
@@ -37,6 +40,8 @@ const categoryControl = {
             return res.status(500).json({msg: err.message})
         }
     }, 
+
+    // category updating function -> update name, image, price
     updateCategory: async(req, res) =>{
         try {
             const {name} = req.body;

@@ -8,22 +8,22 @@ import InstagramIcon from '@mui/icons-material/Instagram';
 
 export default function Footer() {
   return (
-    <Box sx={{  display: 'flex',  flexDirection: 'column', marginTop: 8, width: '100%', minHeight: '100vh', border: '1px solid blue',}}>
+    <Box sx={{  display: 'flex',  flexDirection: 'column', marginTop: 8, width: '100%', border: '1px solid blue',}}>
         <Box component="footer" sx={{ paddingBottom: 2, px: 2, mt: 'auto', backgroundColor: (theme) => theme.palette.mode === 'light' ? theme.palette.grey[200] : theme.palette.grey[800],}}>
             <Container maxWidth="lg">
                 
             
                 
                 <Divider sx = {{marginTop: 3, marginBottom: 3}}>
-                   {
-                       /*
-                        <Stack direction = 'row'>
-                            <FacebookIcon fontSize = 'large'/>
-                            <TwitterIcon fontSize = 'large'/>
-                            <InstagramIcon fontSize = 'large'/>
-                        </Stack>
-                       */
-                   }
+                  
+                       
+                    <Stack direction = 'row'>
+                        <FacebookIcon fontSize = 'large'/>
+                        <TwitterIcon fontSize = 'large'/>
+                        <InstagramIcon fontSize = 'large'/>
+                    </Stack>
+                       
+                 
                 </Divider>
                 
                 

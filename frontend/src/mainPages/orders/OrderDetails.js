@@ -33,8 +33,8 @@ export default function OrderDetails() {
                 </thead>
                 <tbody>
                     <tr>
-                        <td>{orderDetails.address.recipient_first_name}</td>
-                        <td>{orderDetails.address.recipient_last_name}</td>
+                        <td>{orderDetails.first_name}</td>
+                        <td>{orderDetails.last_name}</td>
                         <td>{orderDetails.address.houseNo + ", " + orderDetails.address.street + ", " +orderDetails.address.city}</td>
                     </tr>
                 </tbody>

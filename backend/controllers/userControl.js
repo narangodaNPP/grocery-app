@@ -12,8 +12,8 @@ const userControl = {
             if(user) 
                 return res.status(400).json({msg: "Email already exists"})
 
-            if(password.length < 6)
-                return res.status(400).json({msg: "Password must consist at least 6 characters"})
+            if(password.length < 8)
+                return res.status(400).json({msg: "Password must consist at least 8 characters"})
             
             const passwordEncrypt = await bcrypt.hash(password, 10); // encrypt the password
             
@@ -59,7 +59,7 @@ const userControl = {
             res.cookie('refreshtoken', refreshtoken, {
                 httpOnly: true,
                 path: 'user/refresh_token',
-                maxAge: 7*24*60*60*1000,
+                maxAge: 7*24*60*60*1000, // one week
             })
 
             res.json({accesstoken});

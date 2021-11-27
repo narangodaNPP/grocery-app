@@ -1,8 +1,7 @@
 import React, {useState, useContext} from 'react';
 import {GlobalState} from '../../GlobalState';
-import {Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography, TextField, Button, Container, Stack, Divider} from '@mui/material';
+import {Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography, TextField, Button, Container} from '@mui/material';
 import {createTheme, ThemeProvider} from '@mui/material/styles';
-import {Link} from 'react-router-dom';
 import axios from 'axios';
 
 export default function Categories() {

@@ -63,7 +63,7 @@ const productControl = {
     }, 
     createProduct: async(req, res) =>{
         try{
-            // res.json('test')
+            
             const {product_id, title, price, images, category} = req.body
             if(!images) return res.status(400).json({msg: "No image uploaded"})
 
@@ -71,7 +71,7 @@ const productControl = {
             if(product) return res.status(400).json({msg: "Product already exists"})
 
             const newProduct = new Products({product_id, title, price, images, category})
-            // await newProduct.save();
+            
             await newProduct.save();
             res.json({msg: `${title} created successfully`});
 

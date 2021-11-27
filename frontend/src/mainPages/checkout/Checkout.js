@@ -8,12 +8,11 @@ import axios from 'axios';
 export default function Checkout() {
     const state = useContext(GlobalState);
     const [token] = state.token;
+    const [cart, setCart] = state.userAPI.cart;
     const theme = createTheme();
 
-    // const [user, setUser] = use
-
     const [checkout, setCheckout] = useState({
-        first_name: '', last_name: '', contactNo: '', houseNo: '', street: '', city: '', cart: ''
+        first_name: '', last_name: '', contactNo: '', houseNo: '', street: '', city: '', cart: cart
     })
 
     const orderSuccess = (checkout) => {
@@ -27,11 +26,27 @@ export default function Checkout() {
         setCheckout({...checkout, [name]: value});
     }
 
+    // adding 0 items to cart after cleaning the cart
+    const addToCart = async (cart) => {
+        await axios.patch('/user/addcart', {cart}, {headers: {Authorization: token}})
+    }
+
+    // cart clear function after the checkout is done
+    const clearCart = () => {
+        cart.forEach((item, index) => {
+            cart.splice(index, 1);
+        })
+        setCart([...cart]);
+        addToCart(cart);
+    }
+
+    // submit the checkout in db
     const checkoutSubmit = async e => {
         e.preventDefault();
         try {
             await axios.post('/api/checkout', {...checkout}, {headers: {Authorization: token}});
-            alert("Placing order completed")
+            alert("Placing order completed");
+            clearCart();
             window.location.href ="/"
         } catch (err) {
             alert(err.response.data.msg)
@@ -64,17 +79,7 @@ export default function Checkout() {
                             </Grid>
                             <Grid item xs={6} >
                                 <TextField required id="city" name="city" placeholder="City" value ={checkout.city} fullWidth onChange={onChangeInput} />
-                            </Grid>
-                            {/*<Grid item xs={12} >
-                                <FormControl component="fieldset" required>
-                                    <FormLabel component="legend">Payment Method</FormLabel>
-                                        <RadioGroup row aria-label="Payment Method" name="row-radio-buttons-group">
-                                            <FormControlLabel value="cash" control={<Radio />} label="Cash on Delivery" onChange={onChangeInput}/>
-                                            <FormControlLabel value="card" control={<Radio />} label="Card on Delivery" onChange={onChangeInput}/>
-                                        </RadioGroup>
-                                </FormControl>
-                            </Grid>*/}
-                            
+                            </Grid>    
                         </Grid>
                         <Box sx ={{display: 'flex', justifyContent: 'flex-end',}}>
                             <Button color = 'success' variant="outlined" sx={{ m: 3,}} >

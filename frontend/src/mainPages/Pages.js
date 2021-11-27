@@ -11,7 +11,7 @@ import OrderDetails from './orders/OrderDetails';
 import Categories from './categories/Categories';
 import CreateProduct from './products/CreateProduct';
 import Checkout from './checkout/Checkout';
-import ReviewOrder from './checkout/ReviewOrder'
+// import ReviewOrder from './checkout/ReviewOrder'
 
 export default function Pages() {
 
@@ -33,7 +33,7 @@ export default function Pages() {
             <Route path="/CreateProduct" exact component={isAdmin ? CreateProduct : NotFound}/>
             <Route path="/EditProduct/:id" exact component={isAdmin ? CreateProduct : NotFound}/>
             <Route path="/Checkout" exact component={isLogged ? Checkout : NotFound}/>
-            <Route path="/ReviewOrder" exact component={isLogged ? ReviewOrder : NotFound}/>
+           {/* <Route path="/ReviewOrder" exact component={isLogged ? ReviewOrder : NotFound}/>*/}
 
             <Route path="/NotFound" exact component={NotFound}/>
             

@@ -34,7 +34,9 @@ export default function OrderHistory() {
             <table>
                 <thead>
                     <tr>
-                        <th>Payment ID</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Contact No</th>
                         <th>Date of Purchased</th>
                         <th></th>
                     </tr>
@@ -43,7 +45,9 @@ export default function OrderHistory() {
                     {
                         history.map(items => (
                             <tr key={items._id}>
-                                <td>{items.paymentID}</td>
+                                <td>{items.first_name}</td>
+                                <td>{items.last_name}</td>
+                                <td>{items.contact}</td>
                                 <td>{new Date(items.createdAt).toLocaleDateString()}</td>
                                 <td><Link to={`/history/${items._id}`}>View</Link></td>
                             </tr>

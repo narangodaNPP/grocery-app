@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Avatar, Button, TextField, Grid, Box, Container, Typography, Paper} from '@mui/material';
+import {Avatar, Button, TextField, Grid, Box, Container, Typography,} from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import {Link} from 'react-router-dom';

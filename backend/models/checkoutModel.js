@@ -1,11 +1,13 @@
+// model for save checkout details in db
+
 const mongoose = require('mongoose')
 
 
 const checkoutSchema = new mongoose.Schema({
-    // checkout_id: {
-    //     type: String,
-    //     required: true
-    // },
+    user_id: {
+        type: String,
+        required: true
+    },
     first_name:{
         type: String,
         required: false,

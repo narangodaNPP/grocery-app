@@ -95,8 +95,6 @@ export default function CreateProduct() {
                 await axios.post('/api/products', {...product, images}, { headers: {Authorization: token}})
             }
             setCallback(!callback);
-            // setImages(false);
-            // setProduct(initialState);
             history.push("/")
 
         } catch (err) {

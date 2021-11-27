@@ -1,6 +1,9 @@
-const Checkouts = require('../models/checkoutModel')
+const Checkouts = require('../models/checkoutModel');
+const Users = require('../models/userModel')
 
 const checkoutControl = {
+    
+    // get saved checkouts in db
     getCheckout: async(req, res) =>{
         try {
             const checkouts = await Checkouts.find()
@@ -9,12 +12,19 @@ const checkoutControl = {
             return res.status(500).json({msg: err.message})
         }
     },
+
+    // creating checkout and save in db
     createCheckout: async(req, res) => {
         try {
-            const {cart, first_name, last_name, contact, houseNo, street, city} = req.body;
+            const user = await Users.findById(req.user.id).select('first_name last_name')
+            if(!user) return res.status(400).json({msg: "User doesn't exist'"})
 
-            const newCheckout = new Checkouts({first_name, last_name, contact, cart, houseNo, street, city})
-            
+            const {first_name, last_name, cart, contact, houseNo, street, city} = req.body;
+
+            const {_id} = user;
+
+            const newCheckout = new Checkouts({ user_id: _id, first_name, last_name, cart, contact, houseNo, street, city})
+
             await newCheckout.save()
             res.json({msg: "Order Placed Successfully!"})
             
