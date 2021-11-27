@@ -14,8 +14,10 @@ export default function Cart() {
     const [cart, setCart] = state.userAPI.cart;
     const [total, setTotal] = useState(0);
 
+    // theme for the page
     const theme = createTheme();
 
+    // get full total of the pending cart
     useEffect(() =>{
         const getTotal = () => {
             const total = cart.reduce((prev, item) =>{
@@ -25,12 +27,15 @@ export default function Cart() {
             setTotal(total);
         }
         getTotal();
+
     }, [cart])
 
+    // add product to the cart
     const addToCart = async (cart) => {
         await axios.patch('/user/addcart', {cart}, {headers: {Authorization: token}})
     }
 
+    // increment total of a particular product
     const increment = (id) => {
         cart.forEach(item => {
             if(item._id === id){
@@ -41,6 +46,7 @@ export default function Cart() {
         addToCart(cart);
     }
 
+    // decrement total a particular product 
     const decrement = (id) => {
         cart.forEach(item => {
             if(item._id === id){
@@ -51,15 +57,7 @@ export default function Cart() {
         addToCart(cart);
     }
 
-    const placeOrder = async(checkout) => {
-        const { cart } = checkout;
-
-        await axios.post('/api/checkout', {cart}, {headers: {Authorization: token}})
-
-        setCart([...cart])
-        addToCart([cart])
-    }
-
+    // remove product from cart
     const removeProduct = (id) => {
         cart.forEach((item, index) => {
             if(item._id === id) {
@@ -69,6 +67,8 @@ export default function Cart() {
         setCart([...cart]);
         addToCart(cart);
     }
+
+    // some styles for images in cart table
     const styles = {
         media: {
             height: 'auto',
@@ -127,7 +127,7 @@ export default function Cart() {
     
                                 <TableCell width ='30%'>
                                     <Card style={styles.media}>
-                                        <CardMedia  component="img" image = {product.image.url} alt="" />                
+                                        <CardMedia  component="img" image = {product.images.url} alt="" />                
                                     </Card>
                                     
                                 </TableCell>
@@ -163,12 +163,13 @@ export default function Cart() {
                                 <TableCell><h3> Full Total Rs:{total}</h3></TableCell>
                                 
                                 <TableCell>
-                                    <Link to ='/Checkout' style={{textDecoration: 'none'}}><Button variant='contained' color = 'success' size = 'small' placeOrder={placeOrder} >Proceed Checkout</Button></Link>
+                                    <Link to ='/Checkout' style={{textDecoration: 'none'}}><Button variant='contained' color = 'success' size = 'small' >Proceed Checkout</Button></Link>
                                 </TableCell>
                             </TableRow>
                     </TableBody>
                 </Table>
             </TableContainer>
+            
         </ThemeProvider>
         )
     }
