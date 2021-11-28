@@ -5,13 +5,10 @@ import Cart from './cart/Cart';
 import SignIn from './authentication/SignIn';
 import SignUp from './authentication/SignUp';
 import Product from './products/Product';
-import NotFound from './utils/NotFound'
-import OrderHistory from './orders/OrderHistory';
-import OrderDetails from './orders/OrderDetails';
+import NotFound from './utils/NotFound';
 import Categories from './categories/Categories';
 import CreateProduct from './products/CreateProduct';
 import Checkout from './checkout/Checkout';
-// import ReviewOrder from './checkout/ReviewOrder'
 
 export default function Pages() {
 
@@ -28,12 +25,10 @@ export default function Pages() {
             <Route path="/SignUp" exact component={isLogged ? NotFound : SignUp}/>
 
             <Route path="/Categories" exact component={isAdmin ? Categories : NotFound}/>
-            <Route path="/History" exact componet={isLogged ? OrderHistory : NotFound}/>
-            <Route path="/History/:id" exact componet={isLogged ? OrderDetails : NotFound}/>
             <Route path="/CreateProduct" exact component={isAdmin ? CreateProduct : NotFound}/>
             <Route path="/EditProduct/:id" exact component={isAdmin ? CreateProduct : NotFound}/>
             <Route path="/Checkout" exact component={isLogged ? Checkout : NotFound}/>
-           {/* <Route path="/ReviewOrder" exact component={isLogged ? ReviewOrder : NotFound}/>*/}
+           {/* <Route path="/ReviewOrder" exact component={isLogged ? ReviewOrder : NotFound}/>*/} {/* review the order immideatly after the placing order haven't set */}
 
             <Route path="/NotFound" exact component={NotFound}/>
             
@@ -42,3 +37,4 @@ export default function Pages() {
 }
 
 
+// order viewing sections for both customer and admin created but those were abandened since navigation problem encountered

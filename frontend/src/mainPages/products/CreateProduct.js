@@ -108,9 +108,15 @@ export default function CreateProduct() {
 
             <Container sx ={{marginTop: 8, pb: 4, width: '80%', border: '1px solid blue'}}>
                 <Box component = 'div' sx ={{display: 'flex', justifyContent: 'center', flexDirection: 'row', p: 1, m: 1,}}>
-                    <Typography component="h1" variant="h5" sx ={{justifyContent: 'center'}}>
-                        Create Product
-                    </Typography>
+                   {
+                       onEdit ?  <Typography component="h1" variant="h5" sx ={{justifyContent: 'center'}}>
+                                    Update Product
+                                </Typography>
+                                :
+                                <Typography component="h1" variant="h5" sx ={{justifyContent: 'center'}}>
+                                    Create Product
+                                </Typography>
+                   }
                 </Box>
 
                 <Box component = 'div' sx ={{display: 'flex', justifyContent: 'space-evenly', flexDirection: 'row', p: 1, m: 1,}}>

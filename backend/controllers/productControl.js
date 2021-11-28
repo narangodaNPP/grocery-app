@@ -1,6 +1,6 @@
 const Products = require('../models/productModel')
 
-//filtering, sorting and paginations
+//filtering, sorting and paginations => Page setup
 class featuresAPI {
     constructor(query, queryString){
         this.query = query;

@@ -1,6 +1,7 @@
-const Users = require('../models/userModel')
-const bcrypt = require('bcrypt')
-const jwt = require('jsonwebtoken')
+const Users = require('../models/userModel');
+const Checkouts = require('../models/checkoutModel');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 
 const userControl = {
@@ -35,8 +36,6 @@ const userControl = {
             })
 
             res.json({accesstoken})
-            // res.json({msg: "Registration successful"})
-            // res.json({msg: "Registration Sucessfull!"})
         }   
         catch(err){
             return res.status(500).json({msg: err.message})
@@ -52,7 +51,6 @@ const userControl = {
             const isMatch = await bcrypt.compare(password, user.password)
             if(!isMatch) return res.status(400).json({msg: "Incorrect Password"});
 
-            // res.json({msg: "Successfully login"});
             const accesstoken = createAccessToken({id: user._id})
             const refreshtoken = createRefreshToken({id: user._id})
 
@@ -121,7 +119,7 @@ const userControl = {
     },
     history: async(req, res) =>{
         try {
-            const history = await checkout.find({user_id: req.user.id})
+            const history = await Checkouts.find({user_id: req.user.id})
 
             res.json(history)
         } catch (err) {

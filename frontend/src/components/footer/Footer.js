@@ -8,7 +8,7 @@ import InstagramIcon from '@mui/icons-material/Instagram';
 
 export default function Footer() {
   return (
-    <Box sx={{  display: 'flex',  flexDirection: 'column', marginTop: 8, width: '100%', border: '1px solid blue',}}>
+    <Box sx={{  display: 'flex',  flexDirection: 'column', marginTop: 8, width: '100%', minHeight: '20vh'}}>
         <Box component="footer" sx={{ paddingBottom: 2, px: 2, mt: 'auto', backgroundColor: (theme) => theme.palette.mode === 'light' ? theme.palette.grey[200] : theme.palette.grey[800],}}>
             <Container maxWidth="lg">
                 
@@ -32,7 +32,7 @@ export default function Footer() {
                     <Typography align = 'center' variant="body1" color="text.secondary">
                         {'Copyright © '}
                         {new Date().getFullYear()}{' '}
-                        <Link style={{textDecoration: 'none'}} color="inherit" href="/">
+                        <Link style={{textDecoration: 'none'}} color="inherit" href ='/'>
                             Online-Grocery
                         </Link>{' '}
                         {' All rights reserved.'}

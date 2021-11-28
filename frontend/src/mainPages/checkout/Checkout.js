@@ -34,7 +34,7 @@ export default function Checkout() {
     // cart clear function after the checkout is done
     const clearCart = () => {
         cart.forEach((item, index) => {
-            cart.splice(index, 1);
+            cart.splice(index, cart.length);
         })
         setCart([...cart]);
         addToCart(cart);

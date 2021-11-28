@@ -12,6 +12,7 @@ export default function Header() {
     const [isAdmin] = state.userAPI.isAdmin;
     const [cart] = state.userAPI.cart;
 
+    
     // special functions for admin users
     const adminRouter = () => {
         return(
@@ -33,7 +34,7 @@ export default function Header() {
     const loggedRouter = () => {
         return(
             <Box sx = {{display: {md: 'flex', xs: 'none'}}}>
-                <Button><Link style={{textDecoration: 'none'}} to="/History">History</Link></Button>
+                { /*<Button><Link style={{textDecoration: 'none'}} to="/Orders">Orders</Link></Button>*/} {/* abandoned because of navigation errors*/}
                 <Button><Link style={{textDecoration: 'none'}} to="/" onClick ={userLogout}>Logout</Link></Button>
             </Box>
         )
@@ -50,6 +51,7 @@ export default function Header() {
                     <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                         <Link style={{textDecoration: 'none'}} to ='/'>{isAdmin ? 'Admin-View' : 'Online-Grocery'}</Link>
                     </Typography>
+                    
                     <Button sx = {{display: {md: 'flex', xs: 'none'}}} color="inherit"><Link style={{textDecoration: 'none'}} to='/'>{isAdmin ? 'Products' : 'Shop'}</Link></Button>
 
                     {isAdmin && adminRouter()} 

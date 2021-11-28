@@ -1,6 +1,6 @@
-import React, {useState, useContext} from 'react';
+import React, { useContext} from 'react';
 import {GlobalState} from '../../GlobalState';
-import {Button, Grid, Stack, Box, Typography, Container, Paper} from '@mui/material';
+import {Button, Grid,  Container, Box} from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import ProductItem from './ProductItem';
 import axios from 'axios';
@@ -12,17 +12,8 @@ export default function Product() {
     const [isAdmin] = state.userAPI.isAdmin;
     const [token] = state.token;
     const [callback, setCallback] = state.productAPI.callback;
-    const [isCheck, setIsCheck] = useState(false);
 
     const theme = createTheme();
-
-    const checkAll = () => {
-      products.forEach(product => {
-        product.checked = !isCheck;
-      })
-      setProducts([...products]);
-      setIsCheck(!isCheck);
-    }
 
     const handleCheck = (id) =>{
       products.forEach(product => {
@@ -52,20 +43,13 @@ export default function Product() {
     }
 
     return (
-        <ThemeProvider theme={theme}>
-          <Container sx ={{marginTop: 8, pb: 4, border: '1px solid blue', width: '100%'}}>
-            {/*Advertisement carousal*/}
-            
-          </Container>
-          
-          <Container sx ={{marginTop: 8, pb: 4, width: '90%', border: '1px solid blue'}}>
+        <ThemeProvider theme={theme}>  
+          <Container sx ={{marginTop: 8, pb: 4, width: '90%',}}>
             {
               isAdmin && 
-              <div>
-                <span>Select All</span>
-                <input type="checkbox" checked={isCheck} onChange={checkAll}/>
-                <Button onClick={deleteAll}>Delete All</Button>
-              </div>
+              <Box sx ={{m:2}}>
+                <Button color ='success' onClick={deleteAll}>Delete All</Button>
+              </Box>
             }
     
             <Grid container spacing={4}>
